@@ -1,24 +1,21 @@
 class Solution {
     public List<List<Integer>> findDisappearedNumbers(int[] nums, int lower, int upper) {
-        TreeSet<Integer> s = new TreeSet<>();
-        for(int num : nums){
-            s.add(num);
-        }
+        Arrays.sort(nums);                              // 1
+        List<List<Integer>> result = new ArrayList<>();  // 2
+        int prev = lower - 1;                             // 3
 
-        List<List<Integer>> result = new ArrayList<>();
-        int prev = lower - 1;
-
-        for(int x : s){
-            if(x < lower || x > upper) continue;
-            if(x - prev >= 2){
-                result.add(Arrays.asList(prev+1, x-1));
+        for (int num : nums) {                            // 4
+            if (num < lower || num > upper) continue;      // 5
+            if (num - prev >= 2) {                          // 6
+                result.add(Arrays.asList(prev + 1, num - 1)); // 7
             }
-            prev = x;
-        }
-        if(upper - prev >= 1){
-            result.add(Arrays.asList(prev+1, upper));
+            prev = Math.max(prev, num);                     // 8
         }
 
-        return result;
+        if (upper - prev >= 1) {                          // 9
+            result.add(Arrays.asList(prev + 1, upper));      // 10
+        }
+
+        return result; 
     }
 }
